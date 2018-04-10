@@ -1,19 +1,22 @@
 <template lang="pug">
 f7-panel(left='', reveal='', layout='dark')
   f7-view#left-panel-view(navbar-through='', :dynamic-navbar='true')
-    f7-navbar(title='Left Panel')
+    f7-navbar(title='ravci')
     f7-pages
       f7-page
-        f7-block(inner='')
-          p Left panel content goes here
-        f7-block-title Load page in panel
-        f7-list
-          f7-list-item(link='/about/', title='About')
-          f7-list-item(link='/form/', title='Form')
-        f7-block-title Load page in main view
         f7-list
           f7-list-item(link='/about/', title='About', link-view='#main-view', link-close-panel='')
+          f7-list-item(media="<img src='../../assets/demo/backspace_blue.png'>", link='/call/', title='Call', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/contact/', title='Contact', link-view='#main-view', link-close-panel='')
           f7-list-item(link='/form/', title='Form', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/presences/', title='Presences', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/history/', title='History', link-view='#main-view', link-close-panel='')
+          f7-list-item(badge="3" link='/message/', title='Inbox', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/dialpad/', title='Dialpad', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/sessions/', title='Sessions', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/collaboration/', title='Collaboration', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/settings/', title='Settings', link-view='#main-view', link-close-panel='')
+          f7-list-button(icon="icon-bars", title='Settings')
 </template>
 
 <script>
@@ -23,4 +26,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

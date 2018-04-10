@@ -7,6 +7,7 @@ f7-page
   f7-block-title Navigation
   f7-list
     f7-list-item(link='/about/', title='About')
+    f7-list-item(link='/contact/', title='Contact')
     f7-list-item(link='/form/', title='Form')
     f7-list-item(link='/dynamic-route/blog/45/post/125/?foo=bar#about', title='Dynamic Route')
   f7-block-title Side Panels
@@ -23,15 +24,16 @@ f7-page
         f7-button(open-popup='#popup') Popup
       f7-col(width='50')
         f7-button(@click='setCredentials(user)') Login Screen
+
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'homePage',
-  data(){
-    return{
-      user:{
+  data() {
+    return {
+      user: {
         token: null,
         user: null,
         password: null,
@@ -40,8 +42,8 @@ export default {
       }
     }
   },
-  methods:{
-    ...mapActions(['setCredentials',{}])
+  methods: {
+    ...mapActions(['setCredentials', {}])
   }
 }
 </script>

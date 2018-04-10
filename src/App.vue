@@ -19,6 +19,8 @@
         home-page(v-else)
   // Popup
   popup
+  popupLanguage
+  popupVibration
 </template>
 
 <script>
@@ -26,6 +28,8 @@ import HomePage from './vue/pages/homePage'
 import Login from './vue/pages/login'
 import Navbar from './vue/components/navbar'
 import Popup from './vue/components/popup'
+import PopupLanguage from './vue/components/popupLanguage'
+import PopupVibration from './vue/components/popupVibration'
 import LeftPanel from './vue/components/leftPanel'
 import RightPanel from './vue/components/rightPanel'
 import {mapGetters} from 'vuex'
@@ -37,8 +41,10 @@ export default {
     navbar: Navbar,
     leftPanel: LeftPanel,
     rightPanel: RightPanel,
-    popup: Popup
-  },
+    popup: Popup,
+    popupLanguage: PopupLanguage,
+    popupVibration: PopupVibration,
+    },
   computed:{
     ...mapGetters([
       'credentials'
