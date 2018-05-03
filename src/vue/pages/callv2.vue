@@ -1,59 +1,98 @@
-<!-- Tabs.vue -->
 <template lang='pug'>
-    f7-page(with-subnavbar="")
-      .navbar
-        .navbar-inner
-          .center.tab-button2
-            // Buttons row as tabs controller in navbar
-            .buttons-row
-              // Link to 1st tab, active
-              a.tab-link.active.button.tab-button(href="#tab1") CHAT
-              // Link to 2nd tab
-              a.tab-link.button.tab-button(href="#tab2") VOICE
-              // Link to 3rd tab
-              a.tab-link.button.tab-button(href="#tab3") VIDEO
-              // Link to 4th tab
-              a.tab-link.button.tab-button(href="#tab4") PEOPLE
-      .pages
-        .page
-          .page-content
-            // Tabs animated wrapper, required to switch tabs with transition
-            .tabs-animated-wrap
-              // Tabs, tabs wrapper
-              .tabs
-                // Tab 1, active by default
-                #tab1.tab.active
-                  .empty-space
-                    p Here is the Message page!
-                  f7-messagebar(placeholder="Message" send-link="Send" @submit="onSubmit")
-                // Tab 2
-                #tab2.tab
-                  .call-button-container1(@click="makeCall(false)")
-                    .center
-                      .call-button-container
-                        .center
-                          img(slot="icon" src="../../assets/demo/call_outline_white.png")
-                          | Call
-                // Tab 3
-                #tab3.tab
-                  .call-button-container1(@click="makeCall(false)")
-                    .center
-                      .call-button-container
-                        .center
-                          img(slot="icon" src="../../assets/demo/camera_outline_white.png")
-                          | Video
-                // Tab 4
-                #tab4.tab
-                  f7-list
-                    .item-content
-                      .item-media
-                      img.avatar-circle(:src="contact.photoUrl || noImg" width="44")
-                    .item-inner
-                      .item-title-row
-                          .item-title {{callee}}
-                          .item-subtitle {{contactType}}
-
+.page
+  f7-navbar
+    f7-nav-left
+      f7-link(icon-if-ios='f7:menu', icon-if-md='material:menu', panel-open='left')
+    f7-nav-right.end-button-color(v-if="onCall")
+      f7-link(icon-if-ios='f7:menu', icon-if-md='material:call_end', panel-open='right',@click="end")
+    f7-nav-right(v-if="!onCall")
+      f7-link(icon-if-ios='f7:menu', icon-if-md='material:phone_in_talk', panel-open='right', @click="makeCall(false)")
+  // Additional "tabbar-labels" class
+  .toolbar.tabbar-labels
+    .toolbar-inner
+      a.tab-link.b.tab-link-active(href='#tab-1')
+        // Different icons for iOS and MD themes
+        // Label text
+        span.tabbar-label CHAT
+      a.tab-link.b(href='#tab-2')
+        span.tabbar-label VOICE
+      a.tab-link.b(href='#tab-3')
+        span.tabbar-label VIDEO
+      a.tab-link.b(href='#tab-4')
+        span.tabbar-label PEOPLE
+  .tabs
+    #tab-1.page-content.tab.tab-active
+      .page-content.messages-content.a
+        .chat-div(v-for='message in filtredMessages', :key='message.timestamp', v-if='renderMessages')
+          left-chat-bubble.leftBBl.messageLine(:message='message', v-if='message.sender === conversationId', :contact='selectedContacts[0]')
+          right-chat-bubble.rightBBl.messageLine(:message='message', v-else)
+      .toolbar.toolbar-bottom-md.messagebar
+        .toolbar-inner
+          a.link.toggle-sheet(href='#')
+            i.icon.f7-icons.ios-only more_vert_fill
+            i.icon.material-icons.md-only more_vert
+          .messagebar-area
+            textarea(v-model='message', placeholder='Message')
+          a.link(href='#', @click='sendMessage()')
+            i.icon.f7-icons.ios-only more_vert_fill
+            i.icon.material-icons.md-only near_me
+        .messagebar-sheet
+    #tab-2.page-content.tab
+      .page-content.messages-content.a
+        .call-button-container.action(@click='makeCall(false)')
+          img.img1(src='../assets/demo/call_outline_white.png')
+          | Call
+      .toolbar.toolbar-bottom-md.tabbar-labels
+        .toolbar-inner
+          a.tab-link.tab-link-active.b(href='#tab-5', @click='volumeUp()')
+            i.icon.f7-icons.ios-only volume_up_fill
+            i.icon.material-icons.md-only volume_up
+          a.tab-link.b(href='#tab-6', @click='add()')
+            i.icon.f7-icons.ios-only person_add_fill
+            i.icon.material-icons.md-only person_add
+          a.tab-link.b(href='#tab-7', @click='hold()')
+            i.icon.f7-icons.ios-only phone_paused_fill
+            i.icon.material-icons.md-only phone_paused
+          a.tab-link.b(href='#tab-8', @click='mute()')
+            i.icon.f7-icons.ios-only mic_off_fill
+            i.icon.material-icons.md-only mic_off
+    #tab-3.page-content.tab
+      .page-content.messages-content.a
+        .call-button-container.action(@click='makeCall(true)')
+          img(src='../assets/demo/camera_outline_white.png')
+          | Call
+      .toolbar.toolbar-bottom-md.tabbar-labels
+        .toolbar-inner
+          a.tab-link.tab-link-active.b(href='#tab-5', @click='volumeUp()')
+            i.icon.f7-icons.ios-only volume_up_fill
+            i.icon.material-icons.md-only volume_up
+          a.tab-link.b(href='#tab-6', @click='add()')
+            i.icon.f7-icons.ios-only person_add_fill
+            i.icon.material-icons.md-only person_add
+          a.tab-link.b(href='#tab-7', @click='hold()')
+            i.icon.f7-icons.ios-only phone_paused_fill
+            i.icon.material-icons.md-only phone_paused
+          a.tab-link.b(href='#tab-8', @click='mute()')
+            i.icon.f7-icons.ios-only mic_off_fill
+            i.icon.material-icons.md-only mic_off
+    #tab-4.page-content.tab
+      //-f7-list(media-list='')
+      //- f7-list-item(media="../assets/demo/avatar_generic.png", text="Some text", @click='openContactDetailsPopup(contact)' :title="callee" href="#popupAddContact") Corporate
+      f7-list
+        .item-content
+          .item-media
+            img.avatar-circle(:src="contact.photoUrl || noImg" width="44")
+              //- img(:src='presenceConnected', v-if='contact.presence.status === "open"')
+              //- img(:src='presenceClosed', v-if='contact.presence.status === "closed"')
+          .item-inner
+            .item-title-row
+              .item-title {{callee}}
+               .item-subtitle {{contactType}}
+        //- f7-list-item(@click='makeCall(false)' :title="callee" href="#popupAddContact") Corporate
+        //-  img.avatar-circle.test-icon-left(:src="noImg")
 </template>
+
+
 <script>
 import LeftChatBubble from './LeftChatBubble';
 import RightChatBubble from './RightChatBubble';
@@ -109,13 +148,13 @@ export default {
       let contact = this.$_.find(this.contacts, c => {
         return c.primaryContact === primaryContact;
       });
-      // contact.photoUrl = contact.photoUrl || this.noImg;
+      contact.photoUrl = contact.photoUrl || this.noImg;
       this.selectedContacts.push(this.$_.cloneDeep(contact));
       this.$nextTick(() => {
         this.renderMessages = true;
       });
     },
-    onSubmit() {
+    sendMessage() {
       let messageToSend = {
         type: 'IM',
         text: this.message,
@@ -236,7 +275,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .call-button-container0 {
   padding-top: 1px;
 }
@@ -302,37 +341,5 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-</style>
-<style scoped>
-.empty-space {
-  padding-top: 550px;
-}
-
-.tab-button {
-  width: 90px;
-}
-
-.tab-button2 {
-  width: 450px;
-}
-
-.call-button-container1 {
-  padding-top: 160px;
-}
-
-.call-button-container {
-  margin: auto;
-  width: 233px;
-  height: 80px;
-  vertical-align: middle;
-  padding: 10px;
-  background: #29a3d8;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  font-family: lato-bold;
-  font-size: 17px;
-  color: white;
 }
 </style>

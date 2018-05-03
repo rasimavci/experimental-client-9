@@ -21,18 +21,30 @@
   popup
   popupLanguage
   popupVibration
+
+  #my-popup.popup
+    .view
+      .page
+        .navbar
+          .navbar-inner
+            .title Popup
+            .right
+              a.link.popup-close(href='#') Close
+        .page-content
+          .block
+            p Popup content goes here.
 </template>
 
 <script>
-import HomePage from './vue/pages/homePage'
-import Login from './vue/pages/login'
-import Navbar from './vue/components/navbar'
-import Popup from './vue/components/popup'
-import PopupLanguage from './vue/components/popupLanguage'
-import PopupVibration from './vue/components/popupVibration'
-import LeftPanel from './vue/components/leftPanel'
-import RightPanel from './vue/components/rightPanel'
-import {mapGetters} from 'vuex'
+import HomePage from './vue/pages/favorites';
+import Login from './vue/pages/login';
+import Navbar from './vue/components/navbar';
+import Popup from './vue/components/popup';
+import PopupLanguage from './vue/components/popupLanguage';
+import PopupVibration from './vue/components/popupVibration';
+import LeftPanel from './vue/components/leftPanel';
+import RightPanel from './vue/components/rightPanel';
+import { mapGetters } from 'vuex';
 export default {
   name: 'app',
   components: {
@@ -44,16 +56,14 @@ export default {
     popup: Popup,
     popupLanguage: PopupLanguage,
     popupVibration: PopupVibration,
-    },
-  computed:{
-    ...mapGetters([
-      'credentials'
-    ])
   },
-  mounted(){
-  }
-}
+  computed: {
+    ...mapGetters(['credentials']),
+  },
+  mounted() {},
+};
 </script>
 
 <style>
+
 </style>

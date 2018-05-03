@@ -1,6 +1,8 @@
 <template lang="pug">
 f7-page(login-screen='')
-  f7-login-screen-title Login
+  f7-login-screen-title
+    br
+    img(src="../../assets/logo.png" class="deneme")
   f7-list(form='')
     f7-list-item
       f7-label Username
@@ -15,31 +17,37 @@ f7-page(login-screen='')
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 export default {
   name: 'login',
-  data(){
-    return{
-      user:{
+  data() {
+    return {
+      user: {
         username: '',
         password: '',
         token: 'YOUR_TOKEN_RESPONSE',
         admin: true,
-        loged: true
-      }
-    }
+        loged: true,
+      },
+    };
   },
   methods: {
-    ...mapActions([
-      'setCredentials',
-    ]),
-    login(){
-      if(this.user.username !== '' && this.user.password !== '')
-        this.$store.dispatch('setCredentials', this.user)
-    }
-  }
-}
+    ...mapActions(['setCredentials']),
+    login() {
+      if (this.user.username !== '' && this.user.password !== '')
+        this.$store.dispatch('setCredentials', this.user);
+      this.$store.dispatch('connect', {
+        username: 'ravci@genband.com',
+        password: 'yjke9884',
+      });
+    },
+  },
+};
 </script>
-<style scoped>
-
+<style>
+.deneme {
+  height: 15%;
+  width: 75%;
+}
 </style>
+

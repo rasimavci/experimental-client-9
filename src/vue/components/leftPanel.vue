@@ -4,9 +4,10 @@ f7-panel(left='', reveal='', layout='dark')
     f7-navbar(title='ravci')
     f7-pages
       f7-page
-        f7-list
-          f7-list-item(link='/about/', title='About', link-view='#main-view', link-close-panel='')
-          f7-list-item(media="<img src='../../assets/demo/backspace_blue.png'>", link='/call/', title='Call', link-view='#main-view', link-close-panel='')
+        f7-list.media-list
+          f7-list-item(icon="icon-camera" link='/about/', title='About', link-view='#main-view', link-close-panel='')
+          //f7-list-item(media="<img src='../../assets/demo/backspace_blue.png'>", link='/call/', title='Call', link-view='#main-view', link-close-panel='')
+          f7-list-item(link='/call/', title='Call', link-view='#main-view', link-close-panel='')
           f7-list-item(link='/contact/', title='Contact', link-view='#main-view', link-close-panel='')
           f7-list-item(link='/form/', title='Form', link-view='#main-view', link-close-panel='')
           f7-list-item(link='/presences/', title='Presences', link-view='#main-view', link-close-panel='')
@@ -21,8 +22,8 @@ f7-panel(left='', reveal='', layout='dark')
 
 <script>
 export default {
-  name: 'leftPanel'
-}
+  name: 'leftPanel',
+};
 </script>
 
 <style scoped>

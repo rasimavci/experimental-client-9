@@ -1,182 +1,146 @@
-<template>
-  <f7-page>
+<template lang='pug'>
+.page
+  f7-navbar
+    f7-nav-left
+      f7-link(icon-if-ios='f7:menu', icon-if-md='material:menu', panel-open='left')
+    f7-navbar(title="Dialpad")
+  .modal-container2
+    input.form-control(type='text', v-model='callee', placeholder='Username or Number...')
+    span.input-group-btn(v-show='hasInput')
+      button.backspace-button(type='button', @click="callee = ''")
+        i
+        img(slot='icon', src='../../assets/demo/backspace_blue.png')
+  .modal-container1
+    .modal-container(display='none')
+      .h3(align='center')
+        img.media-object.pull-center(:src='user')
+      .keypad
+        .keypad-container
+          div
+            button(@click='press(1)')
+              .keypad-button-number 1
+              .keypad-button-text
+            button(@click='press(2)')
+              .keypad-button-number 2
+              .keypad-button-text
+                | ABC
+            button(@click='press(3)')
+              .keypad-button-number 3
+              .keypad-button-text
+                | DEF
+          div
+            button(@click='press(4)')
+              .keypad-button-number 4
+              .keypad-button-text
+                | GHI
+            button(@click='press(5)')
+              .keypad-button-number 5
+              .keypad-button-text
+                | JKL
+            button(@click='press(6)')
+              .keypad-button-number 6
+              .keypad-button-text
+                | MNO
+          div
+            button(@click='press(7)')
+              .keypad-button-number 7
+              .keypad-button-text
+                | PQRS
+            button(@click='press(8)')
+              .keypad-button-number 8
+              .keypad-button-text
+                | TUV
+            button(@click='press(9)')
+              .keypad-button-number 9
+              .keypad-button-text
+                | WXYZ
+          div
+            button(@click="press('*')")
+              | *
+            button(@click='press(0)')
+              | 0
+            button(@click="press('#')")
+              | #
+  // Additional "tabbar-labels" class
+  .toolbar.toolbar-bottom-md.tabbar-labels.tabBackground
+    .toolbar-inner
+      a.tab-link.b(href='#tab-1')
+        img.imgSize(src='../../assets/demo/dp_action_keyboard.png')
+        //-i.icon.f7-icons.ios-only
+          | keyboard_fill
+        //-i.icon.material-icons.md-only
+      a.tab-link.b(href='#tab-2',@click='goCallPage("chat")')
+        img.imgSize(src='../../assets/demo/bubble-clipart-chat-box-15b.png')
+        // Different icons for iOS and MD themes
+        //-i.icon.f7-icons.ios-only email_fill
+        //-i.icon.material-icons.md-only chat_bubble
+        span.badge.color-red 5
+        // Label text
+      a.tab-link.b(href='#tab-3',@click='goCallPage("audio")')
+      img.imgSize(src='../../assets/demo/call_outline_blue.png')
+        //-img(slot='icon', src='../assets/demo/camera_outline_white.png')
+        //-i.icon.f7-icons.ios-only phone_fill
+        //-i.icon.material-icons.md-only phone
+      a.tab-link.b(href='#tab-4',@click='goCallPage("video")')
+        img.imgSize(src='../../assets/demo/video_outline_blue.png')
+        //-i.icon.f7-icons.ios-only videocam_fill
+        //-i.icon.material-icons.md-only videocam
+      a.tab-link.b(href='#tab-5')
+        img.imgSize(src='../../assets/demo/dp_action_voicemail.png')
+        //-i.icon.f7-icons.ios-only voicemail_fill
+        //-i.icon.material-icons.md-only voicemail
+  .tabs
+    #tab-1.page-content.tab  1
+    #tab-2.page-content.tab  2
+    #tab-3.page-content.tab.tab-active
+    #tab-4.page-content.tab  4
+    #tab-4.page-content.tab  5
 
-<f7-toolbar tabbar labels>
-  <f7-link icon="icon-bars" text="Chat" tab-link="#tab1"></f7-link>
-  <f7-link icon="icon-camera" text="Call" tab-link="#tab2"></f7-link>
-  <f7-link icon="icon-box" text="Chat" tab-link="#tab3"></f7-link>
-  <f7-link icon="icon-circle" text="Call" tab-link="#tab4"></f7-link>
-  <f7-link icon="icon-check" text="Video" tab-link="#tab5"></f7-link>
-  <f7-link icon="icon-tape" text="Collab" tab-link="#tab6"></f7-link>
-</f7-toolbar>
-
-    <div class='modal-container1'>
-      <div class='input-group flex1'>
-        <input type='text' class='form-control' v-model='callee' placeholder='Username or Number...'>
-        <span class='input-group-btn'>
-          <button class='backspace-button' type='button' @click="callee = ''">
-            <i></i>
-            <img slot="icon" src="../assets/demo/backspace_blue.png">
-
-          </button>
-        </span>
-      </div>
-      <div class='modal-container2'>
-      </div>
-      <div class='modal-container' display='none'>
-        <div align='center' class='h3'>
-          <h3>
-            {{activeCallState}}
-          </h3>
-
-          <img class='media-object pull-center' :src='user' />
-        </div>
-        <div class='keypad'>
-          <div class='keypad-container'>
-            <div>
-              <button class='button' @click='press(1)'>
-                <div class='keypad-button-number'>1</div>
-                <div class='keypad-button-text'></div>
-              </button>
-              <button class='button' @click='press(2)'>
-                <div class='keypad-button-number'>2</div>
-                <div class='keypad-button-text'>
-                  ABC
-                </div>
-              </button>
-              <button class='button' @click='press(3)'>
-                <div class='keypad-button-number'>3</div>
-                <div class='keypad-button-text'>
-                  DEF
-                </div>
-              </button>
-            </div>
-            <div>
-              <button @click='press(4)'>
-                <div class='keypad-button-number'>4</div>
-                <div class='keypad-button-text'>
-                  GHI
-                </div>
-              </button>
-              <button @click='press(5)'>
-                <div class='keypad-button-number'>5</div>
-                <div class='keypad-button-text'>
-                  JKL
-                </div>
-              </button>
-              <button class='button' @click='press(6)'>
-                <div class='keypad-button-number'>6</div>
-                <div class='keypad-button-text'>
-                  MNO
-                </div>
-              </button>
-            </div>
-            <div>
-              <button class='button' @click='press(7)'>
-                <div class='keypad-button-number'>7</div>
-                <div class='keypad-button-text'>
-                  PQRS
-                </div>
-              </button>
-              <button class='button' @click='press(8)'>
-                <div class='keypad-button-number'>8</div>
-                <div class='keypad-button-text'>
-                  TUV
-                </div>
-              </button>
-              <button class='button' @click='press(9)'>
-                <div class='keypad-button-number'>9</div>
-                <div class='keypad-button-text'>
-                  WXYZ
-                </div>
-              </button>
-            </div>
-            <div>
-              <button class='button' @click="press('*')">
-                *
-              </button>
-              <button class='button' @click='press(0)'>
-                0
-              </button>
-              <button class='button' @click="press('#')">
-                #
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-  </f7-page>
 </template>
-
+activeCallState
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex';
 export default {
-  data () {
+  created: function() {
+    this.$store.commit('UPDATE_CURRENTPAGE', 'dialpad');
+  },
+  mounted() {
+    this.$nextTick(() => {
+      document.getElementsByClassName('modal-container1')[0].style.width =
+        document.body.offsetWidth + 'px';
+    });
+  },
+  methods: {
+    goCallPage: function(mode) {
+      this.$store.commit('SET_ACTIVECALLTAB', mode);
+      // this.$f7router.navigate('/history'); // if not route another page first, tabs are not working in call page
+      // this.$f7router.navigate('/call');
+    },
+    openLeftPanel: function() {
+      this.$f7.popup.open(popupLanguage, true);
+    },
+    press(character) {
+      this.callee = this.callee + character;
+      // vm.dialValue = vm.dialValue + '6'
+    },
+  },
+  data() {
     return {
       activeCallState: 'IN_CALL',
       callee: '',
       user: '',
-      myText: 'de',
-      textAreaVisible1: false,
-      textAreaVisible: false,
-      hasCollaborationService: false,
-      isShowKeypad: true,
-      // activeCall: false,
-      callee: '',
-      joinClicked: false,
-      activeNote: '',
-      filterByStatus: '',
-      filterToggle: false,
-      target: '',
-      show: 'all',
-      options: [
-        {
-          label: 'Personal Address Book',
-          value: 1
-        },
-        {
-          label: 'Global Address Book',
-          value: 2
-        }
-      ]
-    }
+      hasInput: false,
+    };
   },
-  computed: mapState({
-    user: state => state.user,
-    activeCall: state => state.vux.activeCall,
-    activeCallState: state => state.vux.activeCall.state,
-    activeCallRinging: state => state.activeCallRinging,
-    activeCallExist: state => state.activeCallExist,
-    activeCallInCall: state => state.activeCallInCall,
-    activeCallOnHold: state => state.activeCallOnHold,
-    activeCallMuted: state => state.activeCallOnHold,
-    activeCallsendingVideo: state => state.activeCallOnHold,
-    activeCallEnded: state => state.activeCallOnHold,
-    callstart: state => state.callstart,
-    // callState: state => { if(callState === 'RINGING') { return true } else {return false}},
-    isloadingComplete: state => state.isloadingComplete,
-    busy: state => state.busy
-  }),
-}
+};
 </script>
-
 <style scoped>
-.btn-group button {
-  background-color: #4CAF50;
-  /* Green background */
-  border: 1px solid green;
-  /* Green border */
-  color: white;
-  /* White text */
-  padding: 10px 24px;
-  /* Some padding */
-  cursor: pointer;
-  /* Pointer/hand icon */
-  float: left;
-  /* Float the buttons side by side */
+#aPage {
+  background-color: #fff;
+}
+
+.b {
+  max-height: 30px;
 }
 
 .h3 {
@@ -195,7 +159,8 @@ export default {
 }
 
 .modal-container1 {
-  height: 550px;
+  position: absolute;
+  bottom: 50px;
   padding: 1px 1px;
   background-color: #fff;
   border-radius: 2px;
@@ -205,12 +170,12 @@ export default {
 }
 
 .modal-container2 {
-  padding-top: 180px;
+  padding-top: 100px;
+  background-color: #fff;
 }
 
-
 .modal-container {
-  width: 400px;
+  /* width: 400px; */
   background-color: #fff;
   border-radius: 0px;
   box-shadow: 0;
@@ -272,7 +237,6 @@ export default {
   margin: 5px 0;
 }
 
-
 .keypad-button-number {
   font-size: 28px;
   display: block;
@@ -328,7 +292,7 @@ export default {
 }
 
 .keypad-menu button:hover {
-  background-color: #1E90FF;
+  background-color: #1e90ff;
 }
 
 .keypad-menu myhover {
@@ -370,11 +334,11 @@ export default {
 .keypad-container button {
   border: none !important;
   border-radius: 0px !important;
-  color: #1E90FF !important;
+  color: #1e90ff !important;
 }
 
 .keypad-container button div {
-  color: #1E90FF !important;
+  color: #1e90ff !important;
 }
 
 .keypad-container button:hover {
@@ -397,7 +361,6 @@ export default {
 
 #bloc2 {
   display: inline;
-  float: right;
 }
 
 #localVideoContainer,
@@ -415,5 +378,17 @@ export default {
 .flex1 {
   border: 0px solid black;
 }
-</style>
 
+.my-class {
+  cursor: default;
+}
+
+.imgSize {
+  height: 75%;
+}
+
+.tabBackground {
+  background-color: white;
+  color: white;
+}
+</style>

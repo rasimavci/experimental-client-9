@@ -15,7 +15,7 @@ f7-page
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 export default {
   name: 'settings',
   data() {
@@ -25,12 +25,12 @@ export default {
         user: null,
         password: null,
         admin: null,
-        loged: false
-      }
-    }
+        loged: false,
+      },
+    };
   },
   methods: {
-    ...mapActions(['setCredentials', {}])
-  }
-}
+    ...mapActions(['setCredentials', {}]),
+  },
+};
 </script>
